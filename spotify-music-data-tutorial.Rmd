@@ -1,25 +1,40 @@
 ---
-title: "Tutorial"
+title: "Data Wrangling Tutorial"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
 library(learnr)
+library(tidyverse) # Automatically loads ggplot2 and dplyr
 knitr::opts_chunk$set(echo = FALSE)
+spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')
 ```
+
+
+## Intro to Data Wrangling
+
+Tutorial intro: Insert description of data wrangling and dataset
 
 
 ## Topic 1
 
+### Check out the dataset!
+
+Run this code to view the data on spotify songs!
+
+```{r view-data, exercise=TRUE, exercise.eval=TRUE}
+View(spotify_songs)
+```
+
 ### Exercise 
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+Write the R code required to groupby() playlist_genre:
 
-Write the R code required to add two plus two:
-
-```{r two-plus-two, exercise=TRUE}
-
+```{r group-by, exercise=TRUE}
+spotify_songs %>%
+  select(playlist_genre, danceability) %>%
+  group_by(playlist_genre)
 ```
 
 ### Exercise with Code
