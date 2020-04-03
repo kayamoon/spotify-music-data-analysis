@@ -81,8 +81,28 @@ The important step in summarize() is specifying how we want to reduce the data t
 
 Examples: mean(), sd(), median(), IQR(), max(), n(), and many more
 
-Using the spotify_songs data frame, let's calculate the mean danceability (danceability) of all songs:
+Now let's try out the summarize() function to find the mean popularity of all the songs in the dataframe:
+```{r}
+#summarize on its own as an example
+spotify_songs %>%
+  summarize(mean_pop = mean(track_popularity, na.rm = TRUE))
+```
 
+Note: We added na.rm = TRUE to remove NA (missing values) from each calculation.
+
+Otherwise, the output for mean() and sd() would also be NA.
+
+### Using summarize() with group_by().
+
+We just used summarize() to calculate the mean duration of all songs.
+
+But what if we want to calculate these summary statistics for each genre?
+
+We can use group_by() in the pipeline to generate aggregate summary statistics!
+
+The summarize() function is almost always used in conjunction with group_by().
+
+Run the R code below to view the mean danceability of each playlist_genre using `groupby()`:
 ```{r}
 #using summarize and group_by
 spotify_songs %>% 
@@ -91,12 +111,12 @@ spotify_songs %>%
   arrange(desc(track_name))
 ```
 
-Using a simplified version with count():
-```{r}
-#using count
-spotify_songs %>% 
-  count(track_album_name, sort = TRUE)
-```
+Note: We never use the group_by() operation by itself. We always combine it with a function that performs a calculation, such as summarize().
+
+
+Now that we have learned how to use summarize and group_by, let's try to answer our question of: what are the most popular albums? How?
+
+We're gonna use the spotify_songs data frame,and mean ratings per album!
 
 Summarize mean ratings per album:
 ```{r}
@@ -116,7 +136,15 @@ lumping factors together for a graph:
 
 ## Kaya's Part: summarize() and groupby()
 
+summarize() and group_by() allow us to make calculations and comparisons.
 
+summarize() (with or without group_by()) collapses the data into rows based on summary statistics.
+
+The important step in summarize() is specifying how we want to reduce the data to a single set of summary statistics.
+
+Examples: mean(), sd(), median(), IQR(), max(), n(), and many more
+
+Using the spotify_songs data frame, let's calculate the mean danceability for all of the songs:
 
 ```{r mean_danceability, exercise=TRUE}
 spotify_songs %>%
