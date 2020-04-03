@@ -205,7 +205,11 @@ First, we selected the playlist_genre and danceability columns, since we will ne
 
 Now let's apply some of the data wrangling techniques we have learned!
 
+<<<<<<< HEAD
 Using the spotify_songs data frame, calculate the `mean` `energy` level of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`. If you get stuck, feel free to scroll back through the tutorial for help!
+=======
+Using the spotify_songs data frame, calculate the `mean()` energy level of each playlist_subgenre. Assign the pipeline to the name `avg_subgenre_energy`. If you get stuck, feel free to scroll back through the tutorial for help!
+>>>>>>> 1e8ada0d13ec80912e55a93a83da1048edb6b2c2
 
 
 ```{r avg_subgenre_energy, exercise=TRUE, exercise.lines = 7}
