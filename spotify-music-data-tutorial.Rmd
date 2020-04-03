@@ -67,15 +67,25 @@ top_10 %>% arrange(desc(track_popularity))
 Now let's try to answer this next question with the skills we learned so far and with some new tricks!
 First, lets select the coulmns we want to view.
 ```{r}
-popular_albums = spotify_songs %>% 
+spotify_songs %>% 
   select(track_album_name, track_name, track_popularity)
-View(popular_albums)
 ```
 
 Introducing summarize() and groupby()
+
+summarize() and group_by() allow us to make calculations and comparisons.
+
+summarize() (with or without group_by()) collapses the data into rows based on summary statistics.
+
+The important step in summarize() is specifying how we want to reduce the data to a single set of summary statistics.
+
+Examples: mean(), sd(), median(), IQR(), max(), n(), and many more
+
+Using the spotify_songs data frame, let's calculate the mean danceability (danceability) of all songs:
+
 ```{r}
 #using summarize and group_by
-popular_albums %>% 
+spotify_songs %>% 
   group_by(track_album_name) %>% 
   summarize(track_name = n()) %>% 
   arrange(desc(track_name))
@@ -84,13 +94,13 @@ popular_albums %>%
 Using a simplified version with count():
 ```{r}
 #using count
-popular_albums %>% 
+spotify_songs %>% 
   count(track_album_name, sort = TRUE)
 ```
 
 Summarize mean ratings per album:
 ```{r}
-popular_albums %>%
+popular_albums = spotify_songs %>%
   group_by(track_album_name) %>% 
   summarize(track_name = n(),
             mean_pop = mean(track_popularity, na.rm = TRUE)) %>% 
@@ -106,15 +116,7 @@ lumping factors together for a graph:
 
 ## Kaya's Part: summarize() and groupby()
 
-summarize() and group_by() allow us to make calculations and comparisons.
 
-summarize() (with or without group_by()) collapses the data into rows based on summary statistics.
-
-The important step in summarize() is specifying how we want to reduce the data to a single set of summary statistics.
-
-Examples: mean(), sd(), median(), IQR(), max(), n(), and many more
-
-Using the spotify_songs data frame, let's calculate the mean danceability (danceability) of all songs:
 
 ```{r mean_danceability, exercise=TRUE}
 spotify_songs %>%
