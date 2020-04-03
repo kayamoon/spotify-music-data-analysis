@@ -136,7 +136,7 @@ lumping factors together for a graph:
 
 
 
-## Kaya's Part: summarize() and groupby()
+## Kaya's Part
 
 
 Using the spotify_songs data frame as well as the functions `summarize()` and `mean()`, let's calculate the average danceability for all of the songs:
