@@ -163,14 +163,14 @@ avg_genre_danceability = spotify_songs %>%
 avg_genre_danceability
 ```
 
-First, we selected the playlist_genre and danceability columns, since we will need that data to answer our question! Then, we grouped our data by the playlist_genre and used summarize() to show the average danceability of each playlist_genre. Lastly, we used arrange() to sort the data by the least to the most danceable song!
+First, we selected the playlist_genre and danceability columns, since we will need that data to answer our question! Then, we grouped our data by the playlist_genre and used summarize() to show the average danceability of each playlist_genre. Lastly, we used arrange() to sort the data by the least to the most danceable song! 
 
 
 ### Exercise: Average Energy per Playlist Subgenre
 
 Now let's apply some of the data wrangling techniques we have learned!
 
-Using the spotify_songs data frame, calculate the `mean` energy level `energy` of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`.
+Using the spotify_songs data frame, calculate the `mean` `energy` level of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`. If you get stuck, feel free to scroll back through the tutorial for help!
 
 
 ```{r avg_subgenre_energy, exercise=TRUE, exercise.lines = 7}
