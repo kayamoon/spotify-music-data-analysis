@@ -20,13 +20,27 @@ Tutorial intro: Insert description of data wrangling and dataset
 
 ### Check out the dataset!
 
-Run this code to view the data on spotify songs!
+*The dataset was made available by Charlie Thompson, Josiah Parry, Donal Phipps, and Tom Wolff who authored the spotifyr package as well as Kaylin Pavlik who had a recent blogpost using the audio features to explore and classify songs. She used the spotifyr package to collect about 5000 songs from 6 main categories (EDM, Latin, Pop, R&B, Rap, & Rock).*
+
+More information about the dataset can be found here: [TidyTuesday: Spotify Songs](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-01-21/readme.md).
+
+Feel free to click the link above and view the data dictionary which breaks down the attributes in spotify_songs (e.g. track_name, playlist_genre, energy).
+
+Run this code to view the data on spotify_songs:
 
 ```{r view-data, exercise=TRUE, exercise.eval=TRUE}
 spotify_songs
 ```
 
+<<<<<<< HEAD
 ## Question: Most popular tracks?
+=======
+In the next part of the tutorial, we will learn how we can use data wrangling to learn more about this data!
+
+## Richney's Part
+
+### Question: Most popular tracks?
+>>>>>>> 55c62d1fbc28cfcc2ce2175f2a96dcd1c836d7af
 
 How can we use data wrangling to find the most popular tracks on the list? Well first we'll need to learn a few functions in R that will help us out.
 
@@ -73,7 +87,7 @@ Uh oh, somethings a bit off...I think we need to arrange() the data into descend
 top_10 %>% arrange(desc(track_popularity))
 ```
 
-## Question: Most popular albums?
+### Question: Most popular albums?
 
 Now let's try to answer this next question with the skills we learned so far and with some new tricks!
 
@@ -102,7 +116,7 @@ spotify_songs %>%
 
 Note: We added na.rm = TRUE to remove NA (missing values) from each calculation.
 
-Otherwise, the output for mean() and sd() would also be NA.
+Otherwise, the output for mean() would also be NA.
 
 #### Using summarize() with group_by().
 
@@ -122,6 +136,8 @@ spotify_songs %>%
   summarize(track_name = n()) %>% 
   arrange(desc(track_name))
 ```
+
+We added the step group_by(track_album_name), which does exactly what it sounds like: it groups by track_album_name before calculating summary statistics!
 
 Note: We never use the group_by() operation by itself. We always combine it with a function that performs a calculation, such as summarize().
 
@@ -159,35 +175,20 @@ top_albums %>%
   labs(title = "5 Most Popular albums on Spotify", x = "Album Name", y ="Average Rating")
 ```
 
-## Kaya's Part: summarize() and groupby()
+## Kaya's Part
 
-summarize() and group_by() allow us to make calculations and comparisons.
 
-summarize() (with or without group_by()) collapses the data into rows based on summary statistics.
-
-The important step in summarize() is specifying how we want to reduce the data to a single set of summary statistics.
-
-Examples: mean(), sd(), median(), IQR(), max(), n(), and many more
-
-Using the spotify_songs data frame, let's calculate the mean danceability for all of the songs:
+Using the spotify_songs data frame as well as the functions `summarize()` and `mean()`, let's calculate the average danceability for all of the songs:
 
 ```{r mean_danceability, exercise=TRUE}
 spotify_songs %>%
   summarize(mean_danceability = mean(danceability, na.rm = TRUE))
 ```
 
-Note: We added na.rm = TRUE to remove NA (missing values) from each calculation.
 
-Otherwise, the output for mean() and sd() would also be NA.
+### Example: Average Danceability per Playlist Genre
 
-
-### Average Danceability per Playlist Genre
-
-We just used summarize() to calculate the mean duration of all songs.
-
-But what if we want to calculate these summary statistics for each genre?
-
-We can use group_by() in the pipeline to generate aggregate summary statistics!
+Now let's see how we can use the functions we just learned to find out more about our data!
 
 Run the R code below to view the mean danceability of each playlist_genre using `groupby()`:
 
@@ -201,13 +202,14 @@ avg_genre_danceability = spotify_songs %>%
 avg_genre_danceability
 ```
 
-We added the step group_by(playlist_genre), which does exactly what it sounds like: it groups by playlist_genre before calculating summary statistics.
+First, we selected the playlist_genre and danceability columns, since we will need that data to answer our question! Then, we grouped our data by the playlist_genre and used summarize() to show the average danceability of each playlist_genre. Lastly, we used arrange() to sort the data by the least to the most danceable song! 
 
-Note: We never use the group_by() operation by itself. We always combine it with a function that performs a calculation, such as summarize().
 
 ### Exercise: Average Energy per Playlist Subgenre
 
-Using the spotify_songs data frame, calculate the `mean` energy level `energy` of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`.
+Now let's apply some of the data wrangling techniques we have learned!
+
+Using the spotify_songs data frame, calculate the `mean` `energy` level of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`. If you get stuck, feel free to scroll back through the tutorial for help!
 
 
 ```{r avg_subgenre_energy, exercise=TRUE, exercise.lines = 7}
@@ -227,7 +229,7 @@ avg_subgenre_energy
 
 ### Quiz
 
-Now, using what you learned in the previous exercise, select the least energetic subgenre!
+According to the results in the previous exercise, answer the question below:
 
 
 ```{r quiz}
