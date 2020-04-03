@@ -32,15 +32,8 @@ Run this code to view the data on spotify_songs:
 spotify_songs
 ```
 
-<<<<<<< HEAD
 ## Question: Most popular tracks?
-=======
-In the next part of the tutorial, we will learn how we can use data wrangling to learn more about this data!
 
-## Richney's Part
-
-### Question: Most popular tracks?
->>>>>>> 55c62d1fbc28cfcc2ce2175f2a96dcd1c836d7af
 
 How can we use data wrangling to find the most popular tracks on the list? Well first we'll need to learn a few functions in R that will help us out.
 
@@ -87,7 +80,7 @@ Uh oh, somethings a bit off...I think we need to arrange() the data into descend
 top_10 %>% arrange(desc(track_popularity))
 ```
 
-### Question: Most popular albums?
+## Question: Most popular albums?
 
 Now let's try to answer this next question with the skills we learned so far and with some new tricks!
 
