@@ -111,6 +111,8 @@ spotify_songs %>%
   arrange(desc(track_name))
 ```
 
+Kaya added: We added the step group_by(track_album_name), which does exactly what it sounds like: it groups by track_album_name before calculating summary statistics!
+
 Note: We never use the group_by() operation by itself. We always combine it with a function that performs a calculation, such as summarize().
 
 
@@ -149,6 +151,12 @@ Using the spotify_songs data frame, let's calculate the mean danceability for al
 ```{r mean_danceability, exercise=TRUE}
 spotify_songs %>%
   summarize(mean_danceability = mean(danceability, na.rm = TRUE))
+
+paak = spotify_songs %>%
+  filter(track_artist == "Anderson .Paak") %>%
+  select(track_name, track_album_name, playlist_name, playlist_genre, playlist_subgenre)
+
+View(paak)
 ```
 
 Note: We added na.rm = TRUE to remove NA (missing values) from each calculation.
