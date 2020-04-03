@@ -14,76 +14,97 @@ spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascie
 
 ## Intro to Data Wrangling
 
+### Wrangling Spotify Music Data
+
 Tutorial intro: Insert description of data wrangling and dataset
-
-
-## Topic 1
 
 ### Check out the dataset!
 
 Run this code to view the data on spotify songs!
 
 ```{r view-data, exercise=TRUE, exercise.eval=TRUE}
-View(spotify_songs)
+spotify_songs
 ```
 
-### Exercise 
 
-Write the R code required to groupby() playlist_genre:
+## Kaya's Part: summarize() and groupby()
 
-```{r group-by, exercise=TRUE}
+summarize() and group_by() allow us to make calculations and comparisons.
+
+summarize() (with or without group_by()) collapses the data into rows based on summary statistics.
+
+The important step in summarize() is specifying how we want to reduce the data to a single set of summary statistics.
+
+Examples: mean(), sd(), median(), IQR(), max(), n(), and many more
+
+Using the spotify_songs data frame, let's calculate the mean danceability (danceability) of all songs:
+
+```{r mean_danceability, exercise=TRUE}
 spotify_songs %>%
-  select(playlist_genre, danceability) %>%
-  group_by(playlist_genre)
+  summarize(mean_danceability = mean(danceability, na.rm = TRUE))
 ```
 
-### Exercise with Code
+Note: We added na.rm = TRUE to remove NA (missing values) from each calculation.
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+Otherwise, the output for mean() and sd() would also be NA.
 
-Now write a function that adds any two numbers and then call it:
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
+### Average Danceability per Playlist Genre
+
+We just used summarize() to calculate the mean duration of all songs.
+
+But what if we want to calculate these summary statistics for each genre?
+
+We can use group_by() in the pipeline to generate aggregate summary statistics!
+
+Run the R code below to view the mean danceability of each playlist_genre using `groupby()`:
+
+```{r avg_genre_danceability, exercise=TRUE}
+avg_genre_danceability = spotify_songs %>%
+  select(playlist_genre, danceability) %>% 
+  group_by(playlist_genre) %>% 
+  summarize(mean_danceability = mean(danceability, na.rm = TRUE)) %>%
+  arrange(mean_danceability)
+
+avg_genre_danceability
 ```
 
-## Topic 2
+We added the step group_by(playlist_genre), which does exactly what it sounds like: it groups by playlist_genre before calculating summary statistics.
 
-### Exercise with Hint
+Note: We never use the group_by() operation by itself. We always combine it with a function that performs a calculation, such as summarize().
 
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+### Exercise: Average Energy per Playlist Subgenre
 
-Modify the following code to limit the number of rows printed to 5:
+Using the spotify_songs data frame, calculate the `mean` energy level `energy` of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`.
 
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
+
+```{r avg_subgenre_energy, exercise=TRUE, exercise.lines = 7}
+
 ```
 
-```{r print-limit-hint}
-head(mtcars)
-```
+---
+correct answer:
+avg_subgenre_energy = spotify_songs %>%
+  select(playlist_subgenre, energy) %>% 
+  group_by(playlist_subgenre) %>% 
+  summarize(mean_energy = mean(energy, na.rm = TRUE)) %>%
+  arrange(mean_energy)
+
+avg_subgenre_energy
+---
 
 ### Quiz
 
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+Now, using what you learned in the previous exercise, select the least energetic subgenre!
 
-Some questions to verify that you understand the purposes of various base and recommended R packages:
 
 ```{r quiz}
 quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
+  question("Which subgenre has the least energy?",
+    answer("pop"),
+    answer("permanent wave"),
+    answer("neo soul", correct = TRUE),
+    answer("tropical")
   )
 )
 ```
