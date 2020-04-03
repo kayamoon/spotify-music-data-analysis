@@ -6,17 +6,20 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 library(learnr)
+library(emojifont)
 library(tidyverse) # Automatically loads ggplot2 and dplyr
 knitr::opts_chunk$set(echo = FALSE)
 spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')
 ```
 
 
-## Intro to Data Wrangling
+## Wrangling With the Music: An Intro to Data Wrangling
 
-### Wrangling Spotify Music Data
+Welcome to our data wrangling tutorial where we will show you a few basic functions to help you wrangle data in R! For this tutorial we will be using a dataset about spotify music, stay tuned!
+```{r}
+emoji(search_emoji('multiple musical notes'))
+```
 
-Tutorial intro: Insert description of data wrangling and dataset
 
 ### Check out the dataset!
 
@@ -38,10 +41,10 @@ spotify_songs
 How can we use data wrangling to find the most popular tracks on the list? Well first we'll need to learn a few functions in R that will help us out.
 
 ### Introducing select(), distinct(), top_n(), and arrange()
-The first function we will learn is: `select()`.
+The first function we will learn is: select().
 
 #### select()
-`Select()` takes a subset of coulmns that you choose and will display them. So instaead of having to look at all of the columns in this
+Select() takes a subset of coulmns that you choose and will display them. So instaead of having to look at all of the columns in this
 dataset, we can narrow it down to the ones we want to see. Let's try it out!
 
 First, to see which track is the most popular, we will need to look at these columns: "track_name" and "track_popularity"
@@ -54,11 +57,11 @@ popular_track
 
 
 Wow, that really makes things  much easier to look at. However, it looks like some of the track names repeat? No worries, theres a way to
-fix that. We can get rid of duplicate rows with the `distinct()` function!
+fix that. We can get rid of duplicate rows with the distinct() function!
 
 #### distinct()
 
-The `distinct()` function can be used to keep only unique/distinct rows from a data frame. If there are duplicate rows, only the first row
+The distinct() function can be used to keep only unique/distinct rows from a data frame. If there are duplicate rows, only the first row
 is preserved.
 ```{r}
 popular_tracks = popular_track %>% distinct()
@@ -67,7 +70,7 @@ popular_tracks
 
 #### top_n()
 
-Now how do we look at the 10 most popular tracks? we use the `top_n()` function!
+Now how do we look at the 10 most popular tracks? we use the top_n() function!
 ```{r}
 top_10 = popular_tracks %>% top_n(10)
 top_10
@@ -75,7 +78,7 @@ top_10
 
 #### arrange()
 
-Uh oh, somethings a bit off...I think we need to `arrange()` the data into descending order:
+Uh oh, somethings a bit off...I think we need to arrange() the data into descending order:
 ```{r}
 top_10 %>% arrange(desc(track_popularity))
 ```
@@ -92,15 +95,15 @@ spotify_songs %>%
 
 ### Introducing summarize() and groupby()
 
-`summarize()` and `group_by()` allow us to make calculations and comparisons.
+summarize() and group_by() allow us to make calculations and comparisons.
 
-`summarize()` (with or without `group_by()`) collapses the data into rows based on summary statistics.
+summarize() (with or without group_by()) collapses the data into rows based on summary statistics.
 
-The important step in `summarize()` is specifying how we want to reduce the data to a single set of summary statistics.
+The important step in summarize() is specifying how we want to reduce the data to a single set of summary statistics.
 
-Examples: `mean()`, `sd()`, `median()`, `IQR()`, `max()`, `n()`, and many more.
+Examples: mean(), sd(), median(), IQR(), max(), n(), and many more.
 
-Now let's try out the `summarize()` function to find the mean popularity of all the songs in the dataframe:
+Now let's try out the summarize() function to find the mean popularity of all the songs in the dataframe:
 ```{r}
 #summarize on its own as an example
 spotify_songs %>%
@@ -109,17 +112,17 @@ spotify_songs %>%
 
 Note: We added na.rm = TRUE to remove NA (missing values) from each calculation.
 
-Otherwise, the output for `mean()` would also be NA.
+Otherwise, the output for mean() would also be NA.
 
 #### Using summarize() with group_by().
 
-We just used `summarize()` to calculate the mean duration of all songs.
+We just used summarize() to calculate the mean duration of all songs.
 
 But what if we want to calculate these summary statistics for each genre?
 
-We can use `group_by()` in the pipeline to generate aggregate summary statistics!
+We can use group_by() in the pipeline to generate aggregate summary statistics!
 
-The `summarize()` function is almost always used in conjunction with `group_by()`.
+The summarize() function is almost always used in conjunction with group_by().
 
 Run the R code below to view the mean popularity of songs per album with `groupby()`:
 ```{r}
@@ -132,7 +135,7 @@ spotify_songs %>%
 
 We added the step group_by(track_album_name), which does exactly what it sounds like: it groups by track_album_name before calculating summary statistics!
 
-Note: We never use the `group_by()` operation by itself. We always combine it with a function that performs a calculation, such as `summarize()`.
+Note: We never use the group_by() operation by itself. We always combine it with a function that performs a calculation, such as summarize().
 
 
 Now that we have learned how to use summarize and group_by, let's try to answer our question of: what are the most popular albums? How?
@@ -195,14 +198,14 @@ avg_genre_danceability = spotify_songs %>%
 avg_genre_danceability
 ```
 
-First, we selected the playlist_genre and danceability columns, since we will need that data to answer our question! Then, we grouped our data by the playlist_genre and used `summarize()` to show the average danceability of each playlist_genre. Lastly, we used `arrange()` to sort the data by the least to the most danceable song! 
+First, we selected the playlist_genre and danceability columns, since we will need that data to answer our question! Then, we grouped our data by the playlist_genre and used summarize() to show the average danceability of each playlist_genre. Lastly, we used arrange() to sort the data by the least to the most danceable song! 
 
 
 ## Exercise: Avg Energy per Playlist Subgenre
 
 Now let's apply some of the data wrangling techniques we have learned!
 
-Using the spotify_songs data frame, calculate the `mean()` `energy` level of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`. If you get stuck, feel free to scroll back through the tutorial for help!
+Using the spotify_songs data frame, calculate the `mean` `energy` level of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`. If you get stuck, feel free to scroll back through the tutorial for help!
 
 
 ```{r avg_subgenre_energy, exercise=TRUE, exercise.lines = 7}
