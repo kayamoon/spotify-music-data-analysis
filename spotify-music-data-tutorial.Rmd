@@ -20,12 +20,19 @@ Tutorial intro: Insert description of data wrangling and dataset
 
 ### Check out the dataset!
 
-Run this code to view the data on spotify songs!
+*The dataset was made available by Charlie Thompson, Josiah Parry, Donal Phipps, and Tom Wolff who authored the spotifyr package as well as Kaylin Pavlik who had a recent blogpost using the audio features to explore and classify songs. She used the spotifyr package to collect about 5000 songs from 6 main categories (EDM, Latin, Pop, R&B, Rap, & Rock).*
+
+More information about the dataset can be found here: [TidyTuesday: Spotify Songs](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-01-21/readme.md).
+
+Feel free to click the link above and view the data dictionary which shows what kind of data (e.g. track_name, playlist_genre, energy) is in spotify_songs.
+
+Run this code to view the data on spotify_songs:
 
 ```{r view-data, exercise=TRUE, exercise.eval=TRUE}
 spotify_songs
 ```
 
+In the next part of the tutorial, we will learn how we can use data wrangling to learn more about this data!
 
 ## Richney's Part
 
