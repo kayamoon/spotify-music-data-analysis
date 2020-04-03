@@ -26,15 +26,16 @@ Run this code to view the data on spotify songs!
 spotify_songs
 ```
 
-
-## Richney's Part
-
 ## Question: Most popular tracks?
 
-How can we use data wrangling to find the most popular track on the list? Well first we'll need to learn a few functions in R that will help us out.
+How can we use data wrangling to find the most popular tracks on the list? Well first we'll need to learn a few functions in R that will help us out.
 
-The first function we will learn is: select()
-select() takes a subset of coulmns that you choose and will display them. So instaead of having to look at all of the columns in this dataset, we can narrow it down to the ones we want to see. Let's try it out!
+### Introducing select(), distinct(), top_n(), and arrange()
+The first function we will learn is: select().
+
+#### select()
+Select() takes a subset of coulmns that you choose and will display them. So instaead of having to look at all of the columns in this
+dataset, we can narrow it down to the ones we want to see. Let's try it out!
 
 First, to see which track is the most popular, we will need to look at these columns: "track_name" and "track_popularity"
 ```{r}
@@ -45,11 +46,19 @@ popular_track
 ```
 
 
-Wow, that really makes things  much easier to look at. However, it looks like some of the track names repeat? No worries, theres a way to fix that. We can get rid of duplicate rows with the distinctt() function!
+Wow, that really makes things  much easier to look at. However, it looks like some of the track names repeat? No worries, theres a way to
+fix that. We can get rid of duplicate rows with the distinct() function!
+
+#### distinct()
+
+The distinct() function can be used to keep only unique/distinct rows from a data frame. If there are duplicate rows, only the first row
+is preserved.
 ```{r}
 popular_tracks = popular_track %>% distinct()
 popular_tracks
 ```
+
+#### top_n()
 
 Now how do we look at the 10 most popular tracks? we use the top_n() function!
 ```{r}
@@ -57,7 +66,9 @@ top_10 = popular_tracks %>% top_n(10)
 top_10
 ```
 
-Uh oh, somethings a bit off...i think we need to arrange() the data into descending order:
+#### arrange()
+
+Uh oh, somethings a bit off...I think we need to arrange() the data into descending order:
 ```{r}
 top_10 %>% arrange(desc(track_popularity))
 ```
@@ -65,13 +76,14 @@ top_10 %>% arrange(desc(track_popularity))
 ## Question: Most popular albums?
 
 Now let's try to answer this next question with the skills we learned so far and with some new tricks!
-First, lets select the coulmns we want to view.
+
+First, lets select the columns we want to view: "track_album_name" , "track_popularity"
 ```{r}
 spotify_songs %>% 
-  select(track_album_name, track_name, track_popularity)
+  select(track_album_name, track_popularity)
 ```
 
-Introducing summarize() and groupby()
+### Introducing summarize() and groupby()
 
 summarize() and group_by() allow us to make calculations and comparisons.
 
@@ -79,7 +91,7 @@ summarize() (with or without group_by()) collapses the data into rows based on s
 
 The important step in summarize() is specifying how we want to reduce the data to a single set of summary statistics.
 
-Examples: mean(), sd(), median(), IQR(), max(), n(), and many more
+Examples: mean(), sd(), median(), IQR(), max(), n(), and many more.
 
 Now let's try out the summarize() function to find the mean popularity of all the songs in the dataframe:
 ```{r}
@@ -92,7 +104,7 @@ Note: We added na.rm = TRUE to remove NA (missing values) from each calculation.
 
 Otherwise, the output for mean() and sd() would also be NA.
 
-### Using summarize() with group_by().
+#### Using summarize() with group_by().
 
 We just used summarize() to calculate the mean duration of all songs.
 
@@ -102,7 +114,7 @@ We can use group_by() in the pipeline to generate aggregate summary statistics!
 
 The summarize() function is almost always used in conjunction with group_by().
 
-Run the R code below to view the mean danceability of each playlist_genre using `groupby()`:
+Run the R code below to view the mean popularity of songs per album with `groupby()`:
 ```{r}
 #using summarize and group_by
 spotify_songs %>% 
@@ -125,14 +137,27 @@ popular_albums = spotify_songs %>%
   summarize(track_name = n(),
             mean_pop = mean(track_popularity, na.rm = TRUE)) %>% 
   arrange(desc(mean_pop))
+
+popular_albums
 ```
 
-lumping factors together for a graph:
+NOw let's see the top 5 popular albums using top_n():
+
 ```{r}
+top_albums = popular_albums %>% 
+  top_n(5)
 
+top_albums
 ```
 
-
+Let's see how this would look as a graphic visual:
+```{r}
+top_albums %>% 
+  ggplot(aes(x = track_album_name, y = mean_pop)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "5 Most Popular albums on Spotify", x = "Album Name", y ="Average Rating")
+```
 
 ## Kaya's Part: summarize() and groupby()
 
