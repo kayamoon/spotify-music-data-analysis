@@ -168,7 +168,7 @@ top_albums %>%
   labs(title = "5 Most Popular albums on Spotify", x = "Album Name", y ="Average Rating")
 ```
 
-## Example: Average Danceability
+## Example: Avg Danceability
 
 
 Using the spotify_songs data frame as well as the functions `summarize()` and `mean()`, let's calculate the average danceability for all of the songs:
@@ -179,7 +179,7 @@ spotify_songs %>%
 ```
 
 
-## Example: Average Danceability per Playlist Genre
+## Example: Avg Danceability per Playlist Genre
 
 Now let's see how we can use the functions we just learned to find out more about our data!
 
@@ -198,7 +198,7 @@ avg_genre_danceability
 First, we selected the playlist_genre and danceability columns, since we will need that data to answer our question! Then, we grouped our data by the playlist_genre and used summarize() to show the average danceability of each playlist_genre. Lastly, we used arrange() to sort the data by the least to the most danceable song! 
 
 
-## Exercise: Average Energy per Playlist Subgenre
+## Exercise: Avg Energy per Playlist Subgenre
 
 Now let's apply some of the data wrangling techniques we have learned!
 
