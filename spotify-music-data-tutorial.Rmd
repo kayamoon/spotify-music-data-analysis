@@ -1,25 +1,20 @@
 ---
-title: "Data Wrangling Tutorial"
+title: "Wrangling With the Music: An Intro to Data Wrangling"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
 library(learnr)
-library(emojifont)
 library(tidyverse) # Automatically loads ggplot2 and dplyr
 knitr::opts_chunk$set(echo = FALSE)
 spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')
 ```
 
 
-## Wrangling With the Music: An Intro to Data Wrangling
+## Data Wrangling Tutorial
 
-Welcome to our data wrangling tutorial where we will show you a few basic functions to help you wrangle data in R! For this tutorial we will be using a dataset about spotify music, stay tuned!
-```{r}
-emoji(search_emoji('multiple musical notes'))
-```
-
+Welcome to our data wrangling tutorial where we will show you a few basic functions to help you wrangle data in R! For this tutorial we will be using a dataset about spotify music, stay tuned!`
 
 ### Check out the dataset!
 
@@ -47,12 +42,12 @@ The first function we will learn is: select().
 Select() takes a subset of coulmns that you choose and will display them. So instaead of having to look at all of the columns in this
 dataset, we can narrow it down to the ones we want to see. Let's try it out!
 
-First, to see which track is the most popular, we will need to look at these columns: "track_name" and "track_popularity"
-```{r}
-popular_track = spotify_songs %>% 
-  select(track_name, track_popularity)
+First, to see which track is the most popular, we will need to look at these columns: "track_name" and "track_popularity". Let's select these coulmns and call the new variable: "spotify_albums"
+```{r select_columns, exercise=TRUE}
+spotify_albums = spotify_songs %>% 
+  select(track_name, track_popularity) #selects the two columns that we want
 
-popular_track
+spotify_albums
 ```
 
 
@@ -63,24 +58,37 @@ fix that. We can get rid of duplicate rows with the distinct() function!
 
 The distinct() function can be used to keep only unique/distinct rows from a data frame. If there are duplicate rows, only the first row
 is preserved.
-```{r}
-popular_tracks = popular_track %>% distinct()
-popular_tracks
+```{r distinct, exercise=TRUE}
+spotify_albums = spotify_songs %>% 
+  select(track_name, track_popularity) %>% 
+  distinct() #takes the data set and gets rid of any duplicate data
+
+spotify_albums
 ```
 
 #### top_n()
 
 Now how do we look at the 10 most popular tracks? we use the top_n() function!
-```{r}
-top_10 = popular_tracks %>% top_n(10)
-top_10
+```{r topn, exercise=TRUE}
+top10 = spotify_songs %>% 
+  select(track_name, track_popularity) %>% 
+  distinct() %>% 
+  top_n(10)
+
+top10
 ```
 
 #### arrange()
 
-Uh oh, somethings a bit off...I think we need to arrange() the data into descending order:
-```{r}
-top_10 %>% arrange(desc(track_popularity))
+Uh oh, somethings a bit off...I think we need to arrange the data into descending order. We can do this easily with the arrange() function. The arrange() function simply sorts rows in either ascending or descending order:
+```{r arrange, exercise=TRUE}
+top10 = spotify_songs %>% 
+  select(track_name, track_popularity) %>% 
+  distinct() %>% 
+  top_n(10) %>% 
+  arrange(desc(track_popularity)) #arranges the data in descending order
+
+top10
 ```
 
 ## Question: Most popular albums?
@@ -88,7 +96,7 @@ top_10 %>% arrange(desc(track_popularity))
 Now let's try to answer this next question with the skills we learned so far and with some new tricks!
 
 First, lets select the columns we want to view: "track_album_name" , "track_popularity"
-```{r}
+```{r select_again, exercise=TRUE}
 spotify_songs %>% 
   select(track_album_name, track_popularity)
 ```
@@ -104,9 +112,10 @@ The important step in summarize() is specifying how we want to reduce the data t
 Examples: mean(), sd(), median(), IQR(), max(), n(), and many more.
 
 Now let's try out the summarize() function to find the mean popularity of all the songs in the dataframe:
-```{r}
+```{r summarize_alone, exercise=TRUE}
 #summarize on its own as an example
-spotify_songs %>%
+spotify_songs %>% 
+  select(track_album_name, track_popularity) %>%
   summarize(mean_pop = mean(track_popularity, na.rm = TRUE))
 ```
 
@@ -125,12 +134,14 @@ We can use group_by() in the pipeline to generate aggregate summary statistics!
 The summarize() function is almost always used in conjunction with group_by().
 
 Run the R code below to view the mean popularity of songs per album with `groupby()`:
-```{r}
+```{r summarize_groupby, exercise=TRUE}
 #using summarize and group_by
 spotify_songs %>% 
-  group_by(track_album_name) %>% 
-  summarize(track_name = n()) %>% 
-  arrange(desc(track_name))
+  select(track_album_name, track_popularity) %>%
+  group_by(track_album_name)
+  summarize(mean_pop = mean(track_popularity, na.rm = TRUE))
+
+spotify_songs
 ```
 
 We added the step group_by(track_album_name), which does exactly what it sounds like: it groups by track_album_name before calculating summary statistics!
@@ -138,32 +149,35 @@ We added the step group_by(track_album_name), which does exactly what it sounds 
 Note: We never use the group_by() operation by itself. We always combine it with a function that performs a calculation, such as summarize().
 
 
-Now that we have learned how to use summarize and group_by, let's try to answer our question of: what are the most popular albums? How?
+Now that we have learned how to use summarize and group_by, let's try to answer our question of: what are the most popular albums? 
 
-We're gonna use the spotify_songs data frame,and mean ratings per album!
+Using the new skills that we learned with summarize and goup_by, try to complete the code to calculate the mean:
+*hint: what should we group by and what are we trying to summarize?
+```{r finding_mean, exercise=TRUE}
+spotify_songs %>% 
+  select(track_album_name, track_popularity) %>%
+  group_by( ) %>% 
+  summarize(mean_pop = (track_popularity, na.rm = TRUE)) %>% 
+  arrange(desc(track_name))
 
-Summarize mean ratings per album:
-```{r}
-popular_albums = spotify_songs %>%
-  group_by(track_album_name) %>% 
-  summarize(track_name = n(),
-            mean_pop = mean(track_popularity, na.rm = TRUE)) %>% 
-  arrange(desc(mean_pop))
-
-popular_albums
+spotify_songs
+ 
 ```
 
-NOw let's see the top 5 popular albums using top_n():
+Now let's see the top 5 popular albums using top_n():
 
-```{r}
-top_albums = popular_albums %>% 
+```{r top5, exercise=TRUE}
+spotify_songs %>% 
+  select(track_album_name, track_popularity) %>%
+  group_by(track_album_name) %>% 
+  summarize(mean_pop = mean(track_popularity, na.rm = TRUE)) %>% 
+  arrange(desc(track_album_name)) %>% 
   top_n(5)
 
-top_albums
 ```
 
 Let's see how this would look as a graphic visual:
-```{r}
+```{r graphic, exercise=TRUE}
 top_albums %>% 
   ggplot(aes(x = track_album_name, y = mean_pop)) +
   geom_col() +
@@ -171,6 +185,7 @@ top_albums %>%
   labs(title = "5 Most Popular albums on Spotify", x = "Album Name", y ="Average Rating")
 ```
 
+While this graph doesn't seem like much, it shows a visual of the most popular albums on spotify based on the mean ratings of each song per album. It should also be noted that some "albums" are also singles and therefore this data shows both actual albums and singles.
 ## Example: Avg Danceability
 
 
@@ -205,13 +220,8 @@ First, we selected the playlist_genre and danceability columns, since we will ne
 
 Now let's apply some of the data wrangling techniques we have learned!
 
-<<<<<<< HEAD
+
 Using the spotify_songs data frame, calculate the `mean` `energy` level of each `playlist_subgenre`. Assign the pipeline to the name `avg_subgenre_energy`. If you get stuck, feel free to scroll back through the tutorial for help!
-=======
-Using the spotify_songs data frame, calculate the `mean()` energy level of each playlist_subgenre. Assign the pipeline to the name `avg_subgenre_energy`. If you get stuck, feel free to scroll back through the tutorial for help!
->>>>>>> 1e8ada0d13ec80912e55a93a83da1048edb6b2c2
-
-
 ```{r avg_subgenre_energy, exercise=TRUE, exercise.lines = 7}
 
 ```
