@@ -13,3 +13,9 @@ More information about the dataset can be found here: [TidyTuesday: Spotify Song
 
 Feel free to click the link above and view the data dictionary which breaks down the attributes in spotify_songs (e.g. track_name, playlist_genre, energy).
 
+
+## To view our tutorial, [open this file](spotify-music-data-tutorial.Rmd) in R and click knit!
+
+You will learn about functions that will help you find the most popular albums, the most danceable playlist genres, and much more!
+
+
